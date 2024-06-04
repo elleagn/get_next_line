@@ -6,7 +6,7 @@
 /*   By: gozon <gozon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 10:38:39 by gozon             #+#    #+#             */
-/*   Updated: 2024/06/04 11:51:42 by gozon            ###   ########.fr       */
+/*   Updated: 2024/06/04 12:05:18 by gozon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,3 +32,14 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
+#include <stdio.h>
+
+int	main(void)
+{
+	int	fd;
+
+	fd = open("get_next_line.h", O_RDONLY);
+	printf("%s", get_next_line(fd));
+	return (0);
+
+}

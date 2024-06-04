@@ -6,45 +6,53 @@
 /*   By: gozon <gozon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 08:18:18 by gozon             #+#    #+#             */
-/*   Updated: 2024/06/04 11:52:08 by gozon            ###   ########.fr       */
+/*   Updated: 2024/06/04 14:33:10 by gozon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	ft_strlen(char *s)
+int	ft_strlen_buff(char *buff)
 {
 	int	i;
 
 	i = 0;
-	while (s[i] && s[i] != '\n' && i < BUFFER_SIZE)
+	while (i < BUFFER_SIZE && buff[i] && buff[i] != '\n')
+		i++;
+	if (i < BUFFER_SIZE && buff[i] == '\n')
 		i++;
 	return (i);
 }
 
-char	*ft_strdup(char *s, int *eol)
+int	ft_strlen(char *s)
+{
+	int	i;
+
+	while (s[i])
+		i++;
+	return (i);
+}
+
+char	*ft_strdup(char *buff, int *eol)
 {
 	char	*copy;
 	int		len;
 	int		i;
 
-	len = ft_strlen(s);
+	len = ft_strlen_buff(buff);
+
 	copy = malloc((len + 1) * sizeof(char));
 	if (!copy)
 		return (NULL);
 	i = 0;
 	while (i < len)
 	{
-		copy[i] = s[i];
+		copy[i] = buff[i];
 		i++;
 	}
-	if (len < BUFFER_SIZE && s[i] == '\n')
-	{
+	if (buff[i - 1] == '\n')
 		*eol = 1;
-		copy[i] = s[i];
-	}
-	else
-		copy[i] = '\0';
+	copy[i] = '\0';
 	return (copy);
 }
 
@@ -55,7 +63,7 @@ char	*ft_strjoin(char **line, char *buffer, int *eol)
 	int		i;
 	int		k;
 
-	buffer_len = ft_strlen(buffer);
+	buffer_len = ft_strlen_buff(buffer);
 	joined = malloc((buffer_len + ft_strlen(*line) + 1) * sizeof(char));
 	if (!joined)
 		return (free(*line), NULL);
@@ -65,13 +73,9 @@ char	*ft_strjoin(char **line, char *buffer, int *eol)
 	k = -1;
 	while (++k < buffer_len)
 		joined[i + k] = buffer[k];
-	if (buffer_len < BUFFER_SIZE)
-	{
+	if (joined[i + k -1] == '\n')
 		*eol = 1;
-		joined[i + k] = buffer[k];
-	}
-	else
-		joined[i + k] = '\0';
+	joined[i + k] = '\0';
 	return (joined);
 }
 
@@ -79,10 +83,9 @@ void	free_buff(char *buffer)
 {
 	int	i;
 	int	k;
-	int	len;
 
 	i = 0;
-	k = ft_strlen(buffer);
+	k = ft_strlen_buff(buffer);
 	while (k < BUFFER_SIZE && buffer[k])
 	{
 		buffer[i] = buffer[k];
