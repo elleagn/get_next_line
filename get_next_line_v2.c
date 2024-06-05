@@ -1,45 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_v2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gozon <gozon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/03 10:38:39 by gozon             #+#    #+#             */
-/*   Updated: 2024/06/05 12:23:01 by gozon            ###   ########.fr       */
+/*   Created: 2024/06/05 08:08:52 by gozon             #+#    #+#             */
+/*   Updated: 2024/06/05 12:26:29 by gozon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_v2.h"
 
 char	*get_next_line(int fd)
 {
-	static char	buffer[BUFFER_SIZE];
+	static char	buf[BUFFER_SIZE + 1];
 	char		*line;
-	int			end_of_line;
+	int			read_size;
+	int			eol;
 
-	end_of_line = 0;
-	line = ft_strdup(buffer, &end_of_line);
-	while (!end_of_line)
+	if (!buf)
+		return (NULL);
+	eol = 0;
+	line = malloc(sizeof(char));
+	if (line)
+		line[0] = '\0';
+	else
+		return (NULL);
+	while (!eol)
 	{
-		if (read(fd, buffer, BUFFER_SIZE) == -1)
+		read_size = read(fd, buf, BUFFER_SIZE);
+		if (read_size == -1)
 			return (free(line), NULL);
-		line = ft_strjoin(&line, buffer, &end_of_line);
+		line = ft_strjoin(&line, buf, &eol);
 		if (!line)
 			return (NULL);
+		if (read_size < BUFFER_SIZE)
+			return (free(buf), line);
 	}
-	free_buff(buffer);
-	return (line);
-}
-
-#include <stdio.h>
-
-int	main(void)
-{
-	int	fd;
-
-	fd = open("get_next_line.h", O_RDONLY);
-	printf("%s", get_next_line(fd));
-	return (0);
-
+	return (ft_trimbuf(buf), line);
 }
