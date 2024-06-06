@@ -6,7 +6,7 @@
 /*   By: gozon <gozon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 08:07:23 by gozon             #+#    #+#             */
-/*   Updated: 2024/06/05 08:08:13 by gozon            ###   ########.fr       */
+/*   Updated: 2024/06/06 08:40:48 by gozon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,7 @@
 # include <fcntl.h>
 
 char	*get_next_line(int fd);
+char	*ft_strjoin(char **line, char *buf, int *eol);
+void	ft_trimbuf(char *buf);
 
 #endif

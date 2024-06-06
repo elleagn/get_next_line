@@ -6,7 +6,7 @@
 /*   By: gozon <gozon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 08:19:17 by gozon             #+#    #+#             */
-/*   Updated: 2024/06/05 14:15:33 by gozon            ###   ########.fr       */
+/*   Updated: 2024/06/06 08:41:14 by gozon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,34 @@ char	*ft_strjoin(char **line, char *buf, int *eol)
 	return (free(*line), joined);
 }
 
+void	ft_trimbuf(char *buf)
+{
+	int	i;
+	int	k;
+
+	i = 0;
+	while (buf[i] && buf[i] != '\n')
+		i++;
+	if (buf[i])
+		i++;
+	k = 0;
+	while (buf[i])
+	{
+		buf[k] = buf[i];
+		i++;
+		k++;
+	}
+	while (buf[k])
+	{
+		buf[k] = '\0';
+		k++;
+	}
+}
 #include <stdio.h>
 
 // ft_strjoin
 
+/*
 int	main(void)
 {
 	char	*s;
@@ -83,3 +107,21 @@ int	main(void)
 	printf("%s %d\n", ft_strjoin(&s, "eol in the \n middle", &eol), eol);
 	return (0);
 }
+*/
+
+/*
+int	main(void)
+{
+	char	buf1[] = "I'm in the middle of the \n file";
+	char	buf2[] = "I'm the end of the file";
+	char	buf3[] = "I'm the end of a line";
+
+	ft_trimbuf(buf1);
+	ft_trimbuf(buf2);
+	ft_trimbuf(buf3);
+	printf("%s", buf1);
+	printf("%s", buf2);
+	printf("%s", buf3);
+	return (0);
+}
+*/
