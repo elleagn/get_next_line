@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_v2.h                                 :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gozon <gozon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/05 08:07:23 by gozon             #+#    #+#             */
-/*   Updated: 2024/06/06 08:40:48 by gozon            ###   ########.fr       */
+/*   Created: 2024/06/06 12:02:26 by gozon             #+#    #+#             */
+/*   Updated: 2024/06/06 13:24:14 by gozon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_V2_H
-# define GET_NEXT_LINE_V2_H
+#include "get_next_line.h"
+#include <stdio.h>
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
-# endif
+int	main(int ac, char **av)
+{
+	int		fd;
+	char	*line;
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <fcntl.h>
-
-char	*get_next_line(int fd);
-char	*ft_strjoin(char **line, char *buf, int *eol);
-void	ft_trimbuf(char *buf);
-
-#endif
+	(void) ac;
+	fd = open(av[1], O_RDONLY);
+	line = get_next_line(fd);
+	while (line)
+	{
+		printf("%s", line);
+		free(line);
+		line = get_next_line(fd);
+	}
+	return (0);
+}

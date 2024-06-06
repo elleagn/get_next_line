@@ -5,21 +5,20 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gozon <gozon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/04 08:18:18 by gozon             #+#    #+#             */
-/*   Updated: 2024/06/04 14:33:10 by gozon            ###   ########.fr       */
+/*   Created: 2024/06/05 08:19:17 by gozon             #+#    #+#             */
+/*   Updated: 2024/06/06 14:00:05 by gozon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
 
-int	ft_strlen_buff(char *buff)
+int	ft_get_last_byte(char *buf)
 {
 	int	i;
 
 	i = 0;
-	while (i < BUFFER_SIZE && buff[i] && buff[i] != '\n')
-		i++;
-	if (i < BUFFER_SIZE && buff[i] == '\n')
+	while (buf[i + 1] && buf[i] != '\n')
 		i++;
 	return (i);
 }
@@ -28,127 +27,122 @@ int	ft_strlen(char *s)
 {
 	int	i;
 
+	i = 0;
 	while (s[i])
 		i++;
 	return (i);
 }
 
-char	*ft_strdup(char *buff, int *eol)
+char	*ft_strjoin(char **line, char *buf, int *eol)
 {
-	char	*copy;
 	int		len;
-	int		i;
-
-	len = ft_strlen_buff(buff);
-
-	copy = malloc((len + 1) * sizeof(char));
-	if (!copy)
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		copy[i] = buff[i];
-		i++;
-	}
-	if (buff[i - 1] == '\n')
-		*eol = 1;
-	copy[i] = '\0';
-	return (copy);
-}
-
-char	*ft_strjoin(char **line, char *buffer, int *eol)
-{
+	int		last_byte;
 	char	*joined;
-	int		buffer_len;
 	int		i;
-	int		k;
 
-	buffer_len = ft_strlen_buff(buffer);
-	joined = malloc((buffer_len + ft_strlen(*line) + 1) * sizeof(char));
+	if (!buf[0])
+		return (*line);
+	len = ft_strlen(*line);
+	last_byte = ft_get_last_byte(buf);
+	if (buf[last_byte] == '\n')
+		*eol = 1;
+	joined = malloc(len + (last_byte + 1) + 1);
 	if (!joined)
 		return (free(*line), NULL);
 	i = -1;
-	while ((*line)[++i])
+	while (++i < len)
 		joined[i] = (*line)[i];
-	k = -1;
-	while (++k < buffer_len)
-		joined[i + k] = buffer[k];
-	if (joined[i + k -1] == '\n')
-		*eol = 1;
-	joined[i + k] = '\0';
-	return (joined);
+	while (i <= len + last_byte)
+	{
+		joined[i] = buf[i - len];
+		i++;
+	}
+	joined[i] = '\0';
+	return (free(*line), joined);
 }
 
-void	free_buff(char *buffer)
+void	ft_trimbuf(char *buf, int read_size)
 {
 	int	i;
 	int	k;
 
 	i = 0;
-	k = ft_strlen_buff(buffer);
-	while (k < BUFFER_SIZE && buffer[k])
+	while (buf[i] && buf[i] != '\n')
+		i++;
+	if (buf[i])
+		i++;
+	k = 0;
+	while (buf[i] && i < read_size)
 	{
-		buffer[i] = buffer[k];
+		buf[k] = buf[i];
 		i++;
 		k++;
 	}
-	while (i < BUFFER_SIZE)
+	while (k <= BUFFER_SIZE)
 	{
-		buffer[i] = 0;
-		i++;
+		buf[k] = '\0';
+		k++;
 	}
 }
 
+char	*ft_init_line(char *buf, int fd, int *read_size)
+{
+	char	*line;
+
+	if (!buf[0])
+	{
+		*read_size = read(fd, buf, BUFFER_SIZE);
+		if (!*read_size || *read_size == -1)
+			return (NULL);
+	}
+	else
+		*read_size = ft_strlen(buf);
+	line = malloc(sizeof(char));
+	if (!line)
+		return (NULL);
+	line[0] = '\0';
+	return (line);
+}
+
 // #include <stdio.h>
-
-// ft_strlen
-/*
-int	main(void)
-{
-	printf("String normale : %i\n", ft_strlen("Bonjour"));
-	printf("String avec eol : %d\n", ft_strlen("Bonjour\n blablabla"));
-	printf("String > buffer : %i", ft_strlen("Bonjour bonjour !"));
-	return (0);
-}
-*/
-
-// ft_strdup
-/*
-int	main(void)
-{
-	int	eol;
-
-	eol = 0;
-	printf("%s %d\n", ft_strdup("Normal", &eol), eol);
-	printf("%s %d\n", ft_strdup("EOL\n", &eol), eol);
-	return (0);
-}
-*/
 
 // ft_strjoin
 
 /*
 int	main(void)
 {
+	char	*s;
 	int		eol;
-	char	*line = "Je suis une string";
 
 	eol = 0;
-	printf("%s %i\n", ft_strjoin(&line, " test", &eol), eol);
+	s = calloc(1, sizeof(char));
+	printf("%s %d\n", ft_strjoin(&s, "Null line", &eol), eol);
 	eol = 0;
-	printf("%s %i\n", ft_strjoin(&line, "01234567891", &eol), eol);
+	s = calloc(1, sizeof(char));
+	printf("%s %d\n", ft_strjoin(&s, "", &eol), eol);
+	eol = 0;
+	s = calloc(1, sizeof(char));
+	printf("%s %d\n", ft_strjoin(&s, "eol at the end\n", &eol), eol);
+	eol = 0;
+	s = calloc(1, sizeof(char));
+	printf("%s %d\n", ft_strjoin(&s, "eol in the \n middle", &eol), eol);
 	return (0);
 }
 */
 
-// free_buff
 /*
 int	main(void)
 {
-	char	buff[15] = "blabla\nbla";
+	char	buf1[] = "I'm in the middle of the \n file";
+	char	buf2[] = "I'm the end of the file";
+	char	buf3[] = "I'm the end of a line";
 
-	free_buff(buff);
-	printf("%s\n", buff);
+	ft_trimbuf(buf1);
+	ft_trimbuf(buf2);
+	ft_trimbuf(buf3);
+	printf("%s", buf1);
+	printf("%s", buf2);
+	printf("%s", buf3);
 	return (0);
 }
 */

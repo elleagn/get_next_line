@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gozon <gozon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/03 10:31:59 by gozon             #+#    #+#             */
-/*   Updated: 2024/06/04 12:04:44 by gozon            ###   ########.fr       */
+/*   Created: 2024/06/05 08:07:23 by gozon             #+#    #+#             */
+/*   Updated: 2024/06/06 13:54:04 by gozon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # include <fcntl.h>
 
 char	*get_next_line(int fd);
-char	*ft_strdup(char *s, int *eol);
-char	*ft_strjoin(char **line, char *buffer, int *eol);
-void	free_buff(char *buffer);
+char	*ft_strjoin(char **line, char *buf, int *eol);
+void	ft_trimbuf(char *buf, int read_size);
+char	*ft_init_line(char *buf, int fd, int *read_size);
 
 #endif
