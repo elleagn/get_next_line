@@ -6,12 +6,11 @@
 /*   By: gozon <gozon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 08:19:17 by gozon             #+#    #+#             */
-/*   Updated: 2024/06/07 08:13:16 by gozon            ###   ########.fr       */
+/*   Updated: 2024/06/07 13:14:50 by gozon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
 int	ft_get_last_byte(char *buf, int read_size)
 {

@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gozon <gozon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/05 08:19:17 by gozon             #+#    #+#             */
-/*   Updated: 2024/06/07 08:13:16 by gozon            ###   ########.fr       */
+/*   Created: 2024/06/07 11:38:49 by gozon             #+#    #+#             */
+/*   Updated: 2024/06/07 13:14:04 by gozon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
 int	ft_get_last_byte(char *buf, int read_size)
 {
@@ -103,46 +102,3 @@ char	*ft_init_line(char *buf, int fd, int *read_size)
 	line[0] = '\0';
 	return (line);
 }
-
-// #include <stdio.h>
-
-// ft_strjoin
-
-/*
-int	main(void)
-{
-	char	*s;
-	int		eol;
-
-	eol = 0;
-	s = calloc(1, sizeof(char));
-	printf("%s %d\n", ft_strjoin(&s, "Null line", &eol), eol);
-	eol = 0;
-	s = calloc(1, sizeof(char));
-	printf("%s %d\n", ft_strjoin(&s, "", &eol), eol);
-	eol = 0;
-	s = calloc(1, sizeof(char));
-	printf("%s %d\n", ft_strjoin(&s, "eol at the end\n", &eol), eol);
-	eol = 0;
-	s = calloc(1, sizeof(char));
-	printf("%s %d\n", ft_strjoin(&s, "eol in the \n middle", &eol), eol);
-	return (0);
-}
-*/
-
-/*
-int	main(void)
-{
-	char	buf1[] = "I'm in the middle of the \n file";
-	char	buf2[] = "I'm the end of the file";
-	char	buf3[] = "I'm the end of a line";
-
-	ft_trimbuf(buf1);
-	ft_trimbuf(buf2);
-	ft_trimbuf(buf3);
-	printf("%s", buf1);
-	printf("%s", buf2);
-	printf("%s", buf3);
-	return (0);
-}
-*/

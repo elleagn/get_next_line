@@ -6,7 +6,7 @@
 /*   By: gozon <gozon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 08:07:23 by gozon             #+#    #+#             */
-/*   Updated: 2024/06/07 08:09:09 by gozon            ###   ########.fr       */
+/*   Updated: 2024/06/07 11:30:36 by gozon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 
 # include <unistd.h>
 # include <stdlib.h>
-# include <fcntl.h>
 
 char	*get_next_line(int fd);
 char	*ft_strjoin(char **line, char *buf, int *eol, int read_size);
