@@ -6,7 +6,7 @@
 /*   By: gozon <gozon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 08:08:52 by gozon             #+#    #+#             */
-/*   Updated: 2024/06/06 13:53:44 by gozon            ###   ########.fr       */
+/*   Updated: 2024/06/07 08:14:16 by gozon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	while (!eol)
 	{
-		line = ft_strjoin(&line, buf, &eol);
+		line = ft_strjoin(&line, buf, &eol, read_size);
 		if (!line)
 			return (NULL);
 		if (!eol)
